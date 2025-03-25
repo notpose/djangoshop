@@ -1,4 +1,4 @@
-# djangoshop
+# djangoshop| python 3.12
 git clone https://github.com/notpose/djangoshop.git
 
 cd djangoshop
