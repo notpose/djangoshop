@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded">
+            {% else %}
+                <img src="{% static 'images/no-image.png' %}" alt="Нет изображения" class="img-fluid rounded">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h1 class="mb-3">{{ product.name }}</h1>
+            <p class="text-muted mb-3">Категория: {{ product.category.name }}</p>
+            
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">{{ product.current_price }} ₽</h3>
+                {% if product.is_sale %}
+                    <span class="badge bg-danger">Скидка!</span>
+                {% endif %}
+            </div>
+            <p class="text-muted mb-3">Наличие: {% if product.is_available %}В наличии{% else %}Нет в наличии{% endif %}</p>
+            
+            <div class="mb-3">
+                <a href="{% url 'shop:add_to_wishlist' product.id %}" class="btn btn-outline-danger" title="{% if product in user.wishlist.products.all %}Удалить из избранного{% else %}Добавить в избранное{% endif %}">
+                    <i class="bi bi-heart{% if product in user.wishlist.products.all %}-fill{% endif %}"></i>
+                </a>
+            </div>
+
+            <div class="mb-4">
+                <h4>Описание</h4>
+                <p>{{ product.description|linebreaks }}</p>
+            </div>
+
+            {% if product.technical_specifications %}
+                <div class="mb-4">
+                    <h4>Технические характеристики</h4>
+                    <p>{{ product.technical_specifications|linebreaks }}</p>
+                </div>
+            {% endif %}
+
+            {% if product.usage_instructions %}
+                <div class="mb-4">
+                    <h4>Инструкция по применению</h4>
+                    <p>{{ product.usage_instructions|linebreaks }}</p>
+                </div>
+            {% endif %}
+
+            {% if product.safety_instructions %}
+                <div class="mb-4">
+                    <h4>Меры безопасности</h4>
+                    <p>{{ product.safety_instructions|linebreaks }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 
